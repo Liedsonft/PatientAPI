@@ -10,12 +10,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -30,6 +30,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Object> savePatient (@RequestBody @Valid PatientDto patientDto) {
 
@@ -44,11 +45,13 @@ public class PatientController {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
     public ResponseEntity<Page<PatientModel>> getAllParkingSpots(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(patientService.findAll(pageable));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public  ResponseEntity<Object> getOnePatient(@PathVariable(value = "id") Integer id) {
         Optional<PatientModel> patientModelOptional = patientService.findById(id);
@@ -57,7 +60,7 @@ public class PatientController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(patientModelOptional.get());
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public  ResponseEntity<Object> deletePatient (@PathVariable(value = "id") Integer id) {
         Optional<PatientModel> patientModelOptional = patientService.findById(id);
@@ -67,6 +70,7 @@ public class PatientController {
         patientService.delete(patientModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Dados do paciente apagados com sucesso!");
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public  ResponseEntity<Object> updatePatient (@PathVariable(value = "id") Integer id,
                                                   @RequestBody @Valid PatientDto patientDto) {
