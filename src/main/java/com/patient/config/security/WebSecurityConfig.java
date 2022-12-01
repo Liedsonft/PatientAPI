@@ -19,11 +19,15 @@ public class WebSecurityConfig {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources",
+                        "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger.json",
+                        "/swagger-ui/index.html", "/swagger-ui/**", "/v3/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
