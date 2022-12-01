@@ -8,7 +8,7 @@ API RESTFULL que permite recuperar, criar, atualizar e deletar dados de um pacie
 
   
 
-Patient Model  
+#Patient Model  
 
 {  
 
@@ -24,7 +24,7 @@ Patient Model 
 
 }  
 
-Funcionalidades  
+#Funcionalidades  
 
 Foram consideradas boas práticas de projeto de API RESTFUlL  
 
@@ -36,6 +36,9 @@ Documentação (Swagger)
 Stack Utilizado  
 
 SPRING BOOT v2.7.5 
+
 SPRING SECURITY
+
 JAVA 11
+
 MySQL 8  
